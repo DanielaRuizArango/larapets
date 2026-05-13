@@ -13,61 +13,70 @@ class PetSeeder extends Seeder
      */
     public function run(): void
     {
-        $pet = new Pet();
-        $pet->name = "Firulais";
-        $pet->kind = "Dog";
-        $pet->weight = "10";
-        $pet->age = "2";
-        $pet->breed = "Golden Retriever";
-        $pet->location = "Bogota";
-        $pet->description = "Friendly dog";
-        $pet->adopted = true;
-        $pet->save();
+        Pet::updateOrCreate(
+            ['name' => 'Firulais'],
+            [
+                'kind' => 'Dog',
+                'weight' => '10',
+                'age' => '2',
+                'breed' => 'Golden Retriever',
+                'location' => 'Bogota',
+                'description' => 'Friendly dog',
+                'adopted' => true,
+            ]
+        );
 
-        
-        $pet = new Pet();
-        $pet->name = "Michi";
-        $pet->kind = "Cat";
-        $pet->weight = "5";
-        $pet->age = "1";
-        $pet->breed = "Siamese";
-        $pet->location = "Cali";
-        $pet->description = "Friendly cat";
-        $pet->adopted = true;
-        $pet->save();
+        Pet::updateOrCreate(
+            ['name' => 'Michi'],
+            [
+                'kind' => 'Cat',
+                'weight' => '5',
+                'age' => '1',
+                'breed' => 'Siamese',
+                'location' => 'Cali',
+                'description' => 'Friendly cat',
+                'adopted' => true,
+            ]
+        );
 
-        $pet = new Pet();
-        $pet->name = "Benjamin";
-        $pet->kind = "Dog";
-        $pet->weight = "18";
-        $pet->age = "9";
-        $pet->breed = "Beagle";
-        $pet->location = "Medellin";
-        $pet->description = "fat";
-        $pet->adopted = true;
-        $pet->save();
+        Pet::updateOrCreate(
+            ['name' => 'Benjamin'],
+            [
+                'kind' => 'Dog',
+                'weight' => '18',
+                'age' => '9',
+                'breed' => 'Beagle',
+                'location' => 'Medellin',
+                'description' => 'fat',
+                'adopted' => true,
+            ]
+        );
 
-        $pet = new Pet();
-        $pet->name = "Coco";
-        $pet->kind = "cat";
-        $pet->weight = "5";
-        $pet->age = "2";
-        $pet->breed = "Persian";
-        $pet->location = "Pereira";
-        $pet->description = "bites";
-        $pet->adopted = true;
-        $pet->save();
+        Pet::updateOrCreate(
+            ['name' => 'Coco'],
+            [
+                'kind' => 'Cat',
+                'weight' => '5',
+                'age' => '2',
+                'breed' => 'Persian',
+                'location' => 'Pereira',
+                'description' => 'bites',
+                'adopted' => true,
+            ]
+        );
 
-        $pet = new Pet();
-        $pet->name = "Milo";
-        $pet->kind = "cat";
-        $pet->weight = "6";
-        $pet->age = "2";
-        $pet->breed = "Persian";
-        $pet->location = "Armenia";
-        $pet->description = "sleepy";
-        $pet->adopted = true;
-        $pet->save();
+        Pet::updateOrCreate(
+            ['name' => 'Milo'],
+            [
+                'kind' => 'Cat',
+                'weight' => '6',
+                'age' => '2',
+                'breed' => 'Persian',
+                'location' => 'Armenia',
+                'description' => 'sleepy',
+                'adopted' => true,
+            ]
+        );
     }
 }
 

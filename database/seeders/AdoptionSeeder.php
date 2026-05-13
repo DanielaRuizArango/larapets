@@ -14,22 +14,22 @@ class AdoptionSeeder extends Seeder
      */
     public function run(): void
     {
-        $adoption = new Adoption();
-        $adoption->user_id = 2;
-        $adoption->pet_id = 2;
-        if($adoption->save()){
-            $pet = Pet::find(2);
-            $pet->adopted = 1;
-            $pet->save();
-        }
+        Adoption::updateOrCreate(
+            ['user_id' => 2, 'pet_id' => 2],
+            []
+        );
 
-         $adoption = new Adoption();
-        $adoption->user_id = 2;
-        $adoption->pet_id = 1;
-        if($adoption->save()){
-            $pet = Pet::find(1);
-            $pet->adopted = 1;
-            $pet->save();
+        Adoption::updateOrCreate(
+            ['user_id' => 2, 'pet_id' => 1],
+            []
+        );
+
+        foreach ([1, 2] as $petId) {
+            $pet = Pet::find($petId);
+            if ($pet) {
+                $pet->adopted = 1;
+                $pet->save();
+            }
         }
     }
 }
