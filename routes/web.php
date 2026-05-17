@@ -157,6 +157,18 @@ Route::middleware('auth')->group( function () {
     Route::post('import/users', [UserController::class, 'import'])->name('users.import');
     Route::post('import/pets', [PetController::class, 'import'])->name('pets.import');
 
-});
+    // Customer Routes (require authentication)
+    Route::middleware('auth')->group(function () {
+        Route::get('myprofile/', [CustomerController::class, 'myprofile']);
+        Route::put('myprofile/{id}', [CustomerController::class, 'updateprofile']);
+
+        Route::get('myadoptions/', [CustomerController::class, 'myadoptions']);
+        Route::get('myadoption/{id}', [CustomerController::class, 'showmyadoption']);
+
+        Route::get('listpets/', [CustomerController::class, 'listpets']);
+        Route::post('search/adoptionpets', [CustomerController::class, 'search']);
+        Route::get('confirmadoption/{id}', [CustomerController::class, 'showpet']);
+        Route::post('makeadoption/{id}', [CustomerController::class, 'makeadoption']);
+    });
 
 require __DIR__ . '/auth.php';

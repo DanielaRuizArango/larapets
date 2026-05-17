@@ -16,10 +16,10 @@
         @if(Auth::user()->role == 'Admin')
         {{-- Module Users --}}
         <div class="card text-white bg-[#0006] w-96 shadow-sm">
-            <figure class="h-[240px] bg-black/10">
+                <figure class="h-[240px]">
                 <img
-                    class="object-contain w-full h-full"
-                    src="{{ asset('images/dashboard/user.png') }}" />
+                    class="object-cover"
+                    src="{{ asset('images/dashboard/user.webp') }}" />
             </figure>
             <div class="card-body">
                 <h2 class="card-title">
@@ -82,10 +82,10 @@
         </div>
         {{-- Module Pets --}}
         <div class="card text-white bg-[#0006] w-96 shadow-sm">
-            <figure class="h-[240px] bg-black/10">
+                <figure class="h-[240px]">
                 <img
-                    class="object-contain w-full h-full"
-                    src="{{ asset('images/dashboard/pet.png') }}" />
+                    class="object-cover"
+                    src="{{ asset('images/dashboard/pet.webp') }}" />
             </figure>
             <div class="card-body">
                 <h2 class="card-title">
@@ -148,10 +148,10 @@
         </div>
         {{-- Module Adoptions --}}
         <div class="card text-white bg-[#0006] w-96 shadow-sm">
-            <figure class="h-[240px] bg-black/10">
+                <figure class="h-[240px]">
                 <img
-                    class="object-contain w-full h-full"
-                    src="{{ asset('images/dashboard/adoption.png') }}" />
+                    class="object-cover"
+                    src="{{ asset('images/dashboard/adoption.webp') }}" />
             </figure>
             <div class="card-body">
                 <h2 class="card-title">
@@ -218,9 +218,9 @@
         @if(Auth::user()->role == 'Customer')
         {{-- Module My Profile --}}
         <div class="card text-white bg-[#0006] w-96 shadow-sm">
-            <figure class="h-[240px]">
+                <figure class="h-[240px]">
                 <img
-                    class="object-cover w-full h-full"
+                    class="object-cover"
                     src="{{ asset('images/bg-users.webp') }}" />
             </figure>
             <div class="card-body">
@@ -242,9 +242,9 @@
         </div>
         {{-- Module My Adoptions --}}
         <div class="card text-white bg-[#0006] w-96 shadow-sm">
-            <figure class="h-[240px]">
+                <figure class="h-[240px]">
                 <img
-                    class="object-cover w-full h-full"
+                    class="object-cover"
                     src="{{ asset('images/bg-pets.webp') }}" />
             </figure>
             <div class="card-body">
@@ -267,9 +267,9 @@
         </div>
         {{-- Module Adoptions --}}
         <div class="card text-white bg-[#0006] w-96 shadow-sm">
-            <figure class="h-[240px]">
+                <figure class="h-[240px]">
                 <img
-                    class="object-cover w-full h-full"
+                    class="object-cover"
                     src="{{ asset('images/bg-adoptions.webp') }}" />
             </figure>
             <div class="card-body">
@@ -280,7 +280,7 @@
                     Make Adoption
                 </h2>
                 <div class="card-actions justify-end">
-                <a class="btn btn-outline hover:bg-[#fff6] hover:text-white mt-3" href="{{ url('makeadoption') }}">
+                <a class="btn btn-outline hover:bg-[#fff6] hover:text-white mt-3" href="{{ url('listpets') }}">
                     Enter
                     <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="currentColor" viewBox="0 0 256 256">
                         <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path>
@@ -292,4 +292,29 @@
         @endif
 
     </div>
+@endsection
+
+@section('js')
+<script>
+    // Message
+    @if(session('error'))
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: '{{ session('error') }}',
+            showConfirmButton: false,
+            timer: 4500
+        });
+    @endif
+
+        @if(session('message'))
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: '{{ session('message') }}',
+                showConfirmButton: false,
+                timer: 4500
+            });
+        @endif
+</script>
 @endsection
