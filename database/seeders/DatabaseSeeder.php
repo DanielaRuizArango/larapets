@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         
         // Factory
                             
-        // User::factory()->count(50)->create();
+        User::factory()->count(50)->create();
         if (Pet::count() === 0) {
             Pet::factory()->count(50)->create();
         }
