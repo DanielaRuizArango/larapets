@@ -170,5 +170,6 @@ Route::middleware('auth')->group( function () {
         Route::get('confirmadoption/{id}', [CustomerController::class, 'showpet']);
         Route::post('makeadoption/{id}', [CustomerController::class, 'makeadoption']);
     });
+});
 
 require __DIR__ . '/auth.php';
