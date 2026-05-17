@@ -50,25 +50,50 @@ class UserFactory extends Factory
     // Limpiar tildes y espacios (opcional pero recomendado)
     $email = Str::ascii($email);
 
-    $response = Http::get("https://randomuser.me/api/", [
-        'gender' => $gender,
-        'nat' => 'us',
-        'inc' => 'picture',
-    ]);
-
-    $data = $response->json()['results'][0];
-    $imageUrl = $data['picture']['large'];
-
-    // Guardar imagen
-    $directory = public_path('photos');
-    if (!File::exists($directory)) {
-        File::makeDirectory($directory, 0755, true);
-    }
-
-    // El nombre del archivo será el número de documento
+    // Intenta obtener imagen del API randomuser.me con manejo de errores
     $fileName = $document . '.jpg';
+    $photoPath = 'photos/' . $fileName;
 
-    File::put($directory . '/' . $fileName, file_get_contents($imageUrl));
+    try {
+        $response = Http::timeout(10)->get("https://randomuser.me/api/", [
+            'gender' => $gender,
+            'nat' => 'us',
+            'inc' => 'picture',
+        ]);
+
+        // Validar que la respuesta sea exitosa y tenga datos
+        if ($response->successful() && !empty($response->json()['results'])) {
+            $data = $response->json()['results'][0];
+            
+            // Verificar que existan los campos necesarios
+            if (isset($data['picture']['large'])) {
+                $imageUrl = $data['picture']['large'];
+
+                // Guardar imagen
+                $directory = public_path('photos');
+                if (!File::exists($directory)) {
+                    File::makeDirectory($directory, 0755, true);
+                }
+
+                $imageContent = file_get_contents($imageUrl);
+                if ($imageContent !== false) {
+                    File::put($directory . '/' . $fileName, $imageContent);
+                } else {
+                    // Si la descarga falla, usar imagen por defecto
+                    $this->createDefaultPhoto($directory, $fileName);
+                }
+            } else {
+                // Si no están los campos esperados, usar imagen por defecto
+                $this->createDefaultPhoto(public_path('photos'), $fileName);
+            }
+        } else {
+            // Si la respuesta no es exitosa o no hay datos, usar imagen por defecto
+            $this->createDefaultPhoto(public_path('photos'), $fileName);
+        }
+    } catch (\Exception $e) {
+        // En caso de cualquier excepción (timeout, conexión, etc), usar imagen por defecto
+        $this->createDefaultPhoto(public_path('photos'), $fileName);
+    }
 
     return [
         'document' => $document,
@@ -88,8 +113,30 @@ class UserFactory extends Factory
 
 
     /**
+     * Crea una imagen de placeholder por defecto cuando la API falla
+     */
+    private function createDefaultPhoto($directory, $fileName): void
+    {
+        if (!File::exists($directory)) {
+            File::makeDirectory($directory, 0755, true);
+        }
+
+        // Crear un PNG simple de 200x200 con fondo gris y texto
+        $image = imagecreatetruecolor(200, 200);
+        $bgColor = imagecolorallocate($image, 200, 200, 200);
+        $textColor = imagecolorallocate($image, 100, 100, 100);
+        
+        imagefill($image, 0, 0, $bgColor);
+        imagestring($image, 2, 60, 95, 'No Photo', $textColor);
+        
+        imagejpeg($image, $directory . '/' . $fileName, 90);
+        imagedestroy($image);
+    }
+
+    /**
      * Indicate that the model's email address should be unverified.
      */
+
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => [
